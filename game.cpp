@@ -76,7 +76,31 @@ void Settings::lire_fichier() {
 }
 
 void Settings::save_fichier(){
+    if (modes == 1) {
 
+        std::ofstream out("output.txt", std::ios::out | std::ios::app);
+
+        if (out) {
+            for(int k = 0; k < interactions_max; k++) {
+                out << " \n Iteration numero : " << k << std::endl;
+                out << colonne << ligne << std::endl;
+
+                for (int i = 0; i < ligne; ++i) {
+                    for (int j = 0; j < colonne; ++j) {
+                        out << matrice[i][j];
+                        if (j < colonne - 1) out << ", "; // Pas de virgule après le dernier élément
+                    }
+                    if (i < ligne - 1) out << ","; // Pas de virgule après la dernière ligne
+                    out << "\n";
+                }
+            }
+        }
+        else {
+            std::cerr << "Impossible de realiser les sauvegardes" <<std::endl;
+        }
+
+        out.close();
+    }
 }
 
 int Settings::get_interactions() {
@@ -173,5 +197,5 @@ int main()
     Settings settings;
     settings.lire_fichier();
     settings.choix_modes();
-    return 0;
+    settings.save_fichier();
 }
