@@ -18,15 +18,24 @@ private :
     int interactions_max;
     int modes;
 
+    //Partie ajoutée
+    int ligne, colonne;
+    std::vector<std::vector<bool>> matrice;
+
 public:
     void lire_fichier();
     void save_fichier();
-    void set_interactions();
-    void get_interactions();
+    //void set_interactions(); SUPPRIME
+    int get_interactions();
     int choix_modes();
     void non_config_file();
-};
 
+    // Partie ajoutée
+
+    std::string config_path();
+    std::vector<std::vector<bool>>& get_matrice();  //Getter pour la matrice
+
+};
 class Grille {
 private:
     int ligne;
