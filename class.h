@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctime>
 
 
 /**
@@ -15,7 +16,7 @@
 class Settings {
 private :
     std::string URL;
-    int interactions_max;
+    int iterations_max;
     int modes;
 
     //Partie ajoutée
@@ -26,7 +27,7 @@ public:
     void lire_fichier();
     void save_fichier();
     //void set_interactions(); SUPPRIME
-    int get_interactions();
+    int get_iterations();   // MODIFER car get_interactions
     int choix_modes();
     void non_config_file();
 
@@ -34,6 +35,8 @@ public:
 
     std::string config_path();
     std::vector<std::vector<bool>>& get_matrice();  //Getter pour la matrice
+
+    int get_modes();
 
 };
 class Grille {
@@ -73,6 +76,37 @@ public:
     void Aff_graphique() override;
     void Event_Settings() override;
     bool ending() override;
+};
+
+class Cellule {
+protected:
+    std::vector<std::vector<bool>>& matrice; // Référence à la matrice de Settings
+
+    int iterations_cell;
+
+public:
+    Cellule(std::vector<std::vector<bool>>& matrice_ref);
+    virtual void definirEtat(int x, int y, bool etat) = 0;
+    virtual void changerEtat() = 0;
+    void afficherMatrice();
+    void simulerMatrice();
+    std::vector<std::vector<bool>>& get_matrice_cell();
+
+    void set_iterations_max();
+};
+
+class Cellule_movible : public Cellule {
+public:
+    Cellule_movible(std::vector<std::vector<bool>>& matrice_ref);
+    void definirEtat(int x, int y, bool etat) override;
+    void changerEtat() override;
+};
+
+class Cellule_Obstacle : public Cellule {
+public:
+    Cellule_Obstacle(std::vector<std::vector<bool>>& matrice_ref);
+    void definirEtat(int x, int y, bool etat) override;
+    void changerEtat() override;
 };
 
 #endif //CLASS_H

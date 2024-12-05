@@ -21,7 +21,7 @@ void Settings::lire_fichier() {
                 fichier >> jsonData;
 
                 // Extraire les valeurs gridWidth et gridHeight
-                interactions_max = jsonData["interactions_max"].get<int>();
+                iterations_max = jsonData["iterations_max"].get<int>();
                 ligne = jsonData["gridHeight"].get<int>();
                 colonne = jsonData["gridWidth"].get<int>();
 
@@ -81,9 +81,9 @@ void Settings::save_fichier(){
         std::ofstream out("output.txt", std::ios::out | std::ios::app);
 
         if (out) {
-            for(int k = 0; k < interactions_max; k++) {
+            for(int k = 0; k < iterations_max; k++) {
                 out << " \n Iteration numero : " << k << std::endl;
-                out << colonne << ligne << std::endl;
+                out << colonne << " " << ligne << std::endl;
 
                 for (int i = 0; i < ligne; ++i) {
                     for (int j = 0; j < colonne; ++j) {
@@ -103,9 +103,14 @@ void Settings::save_fichier(){
     }
 }
 
-int Settings::get_interactions() {
-    return interactions_max, ligne, colonne, modes;
+int Settings::get_iterations(){
+    return iterations_max;
 }
+
+int Settings::get_modes() {
+    return modes;
+}
+
 
 std::vector<std::vector<bool>>& Settings::get_matrice() {
     return matrice;
@@ -139,7 +144,7 @@ void Settings::non_config_file() {
     if (fichier_nc) {
         // Demande à l'utilisateur
         std::cout << "Veuillez entrer le nombre d'iterations maximum : ";
-        std::cin >> interactions_max;
+        std::cin >> iterations_max;
         std::cout << "Veuillez entrer le nombre de lignes : ";
         std::cin >> ligne;
         std::cout << "Veuillez entrer le nombre de colonnes : ";
@@ -155,7 +160,7 @@ void Settings::non_config_file() {
 
         // Écriture dans le fichier JSON
         fichier_nc << "{\n";
-        fichier_nc << "  \"interactions_max\": " << interactions_max << ",\n";
+        fichier_nc << "  \"iterations_max\": " << iterations_max << ",\n";
         fichier_nc << "  \"gridWidth\": " << ligne << ",\n";
         fichier_nc << "  \"gridHeight\": " << colonne << ",\n";
         fichier_nc << "  \"gridData\": [\n";
@@ -192,10 +197,21 @@ std::string Settings::config_path() {
     return URL;
 }
 
-int main()
-{
+
+
+int main() {
     Settings settings;
-    settings.lire_fichier();
+    settings.lire_fichier(); // Charge la matrice
     settings.choix_modes();
-    settings.save_fichier();
+
+    std::vector<std::vector<bool>>& matrice = settings.get_matrice();
+
+
+    Cellule_movible celluleMovible(matrice);
+    //Cellule_Obstacle celluleObstacle(matrice);
+
+    celluleMovible.afficherMatrice(); // Affiche la matrice partagée
+    celluleMovible.simulerMatrice();  // Simule sur la matrice partagée
+    settings.save_fichier();          //Sauvegarde les résultats
 }
+
