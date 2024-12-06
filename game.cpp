@@ -4,6 +4,15 @@
 #include "SFML/Graphics.hpp"
 #include "nlohmann/include/nlohmann/json.hpp" // Inclure la bibliothèque JSON
 
+std::string Settings::config_path() {
+    std::cout << "Veuillez saisir le chemin de votre fichier:\n";
+    std::cout << "Exemple : config.json \n";
+    std::cin >> URL;
+    URL.erase(std::remove_if(URL.begin(), URL.end(), ::isspace), URL.end());
+
+    return URL;
+}
+
 void Settings::lire_fichier() {
     int dispo;
     std::cout << "Possedez-vous un fichier de configuration ?\n"
@@ -75,66 +84,6 @@ void Settings::lire_fichier() {
     }
 }
 
-void Settings::save_fichier(){
-    if (modes == 1) {
-
-        std::ofstream out("output.txt", std::ios::out | std::ios::app);
-
-        if (out) {
-            for(int k = 0; k < iterations_max; k++) {
-                out << " \n Iteration numero : " << k << std::endl;
-                out << colonne << " " << ligne << std::endl;
-
-                for (int i = 0; i < ligne; ++i) {
-                    for (int j = 0; j < colonne; ++j) {
-                        out << matrice[i][j];
-                        if (j < colonne - 1) out << ", "; // Pas de virgule après le dernier élément
-                    }
-                    if (i < ligne - 1) out << ","; // Pas de virgule après la dernière ligne
-                    out << "\n";
-                }
-            }
-        }
-        else {
-            std::cerr << "Impossible de realiser les sauvegardes" <<std::endl;
-        }
-
-        out.close();
-    }
-}
-
-int Settings::get_iterations(){
-    return iterations_max;
-}
-
-int Settings::get_modes() {
-    return modes;
-}
-
-
-std::vector<std::vector<bool>>& Settings::get_matrice() {
-    return matrice;
-}
-
-int Settings::choix_modes() {
-    std::cout << "Choisir votre mode:\n";
-    std::cout << "1. Mode Console\n";
-    std::cout << "2. Mode Graphique\n" << std::endl;
-    std::cin >> modes;
-
-    if (modes == 1) {
-        std::cout << "Vous avez choisi le Mode Console \n" << std::endl;
-        return 1;
-    }
-    else if (modes == 2) {
-        std::cout << "Vous avez choisi le Mode Graphique \n" << std::endl;
-        return 2;
-    } else {
-        throw std::invalid_argument("Le numero que vous avez saisi est associe a aucun modes.");
-        return 0;
-    }
-}
-
 void Settings::non_config_file() {
 
     // Initialiser le générateur de nombres aléatoires
@@ -186,32 +135,41 @@ void Settings::non_config_file() {
     }
 }
 
+int Settings::choix_modes() {
+    std::cout << "Choisir votre mode:\n";
+    std::cout << "1. Mode Console\n";
+    std::cout << "2. Mode Graphique\n" << std::endl;
+    std::cin >> modes;
 
-//Partie ajoutée
-std::string Settings::config_path() {
-    std::cout << "Veuillez saisir le chemin de votre fichier:\n";
-    std::cout << "Exemple : config.json \n";
-    std::cin >> URL;
-    URL.erase(std::remove_if(URL.begin(), URL.end(), ::isspace), URL.end());
-
-    return URL;
+    if (modes == 1) {
+        std::cout << "Vous avez choisi le Mode Console \n" << std::endl;
+        return 1;
+    }
+    else if (modes == 2) {
+        std::cout << "Vous avez choisi le Mode Graphique \n" << std::endl;
+        return 2;
+    } else {
+        throw std::invalid_argument("Le numero que vous avez saisi est associe a aucun modes.");
+        return 0;
+    }
 }
 
-
-
-int main() {
-    Settings settings;
-    settings.lire_fichier(); // Charge la matrice
-    settings.choix_modes();
-
-    std::vector<std::vector<bool>>& matrice = settings.get_matrice();
-
-
-    Cellule_movible celluleMovible(matrice);
-    //Cellule_Obstacle celluleObstacle(matrice);
-
-    celluleMovible.afficherMatrice(); // Affiche la matrice partagée
-    celluleMovible.simulerMatrice();  // Simule sur la matrice partagée
-    settings.save_fichier();          //Sauvegarde les résultats
+int Settings::get_ligne() {
+    return ligne;
 }
 
+int Settings::get_colonne() {
+    return colonne;
+}
+
+int Settings::get_iterations(){
+    return iterations_max;
+}
+
+int Settings::get_modes() {
+    return modes;
+}
+
+std::vector<std::vector<bool>>& Settings::get_matrice() {
+    return matrice;
+}
