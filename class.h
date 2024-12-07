@@ -4,6 +4,7 @@
 #define CLASS_H
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
 
@@ -40,42 +41,19 @@ public:
 };
 class Grille {
 private:
-    int ligne;
-    int colonne;
+    int lignes;
+    int colonnes;
     bool torique;
     std::vector<std::vector<bool>> etatGrille;
 
 public:
+    Grille(int l, int c, bool t) : lignes(l), colonnes(c), torique(t) {}
     void init();
     void afficher();
     void MAJ();
     bool estTorique();
 };
 
-class IHM {
-private:
-    int largeur;
-    int hauteur;
-
-public:
-    virtual void Aff_graphique() = 0;
-    virtual void Event_Settings() = 0;
-    virtual bool ending() = 0;
-};
-
-class IHM_Moniteur : public IHM {
-  public:
-    void Aff_graphique() override;
-    void Event_Settings() override;
-    bool ending() override;
-};
-
-class IHM_Graphique : public IHM {
-public:
-    void Aff_graphique() override;
-    void Event_Settings() override;
-    bool ending() override;
-};
 
 class Cellule {
 protected:
@@ -117,5 +95,37 @@ public:
     void definirEtat(int x, int y, bool etat) override;
     void changerEtat() override;
 };
+
+
+
+class IHM {
+protected:
+    Settings* settings;
+    Grille* grille;
+    Cellule* cellule;
+    sf::RenderWindow* window;
+    int cellSize = 0;
+
+public:
+    IHM(Settings* s, Grille* g, Cellule* c);
+    virtual void Aff_graphique(sf::RenderWindow& win) = 0;
+    virtual void Event_Settings() = 0;
+};
+
+class IHM_Moniteur : public IHM {
+public:
+    IHM_Moniteur(Settings* s, Grille* g, Cellule* c);
+    void Aff_graphique(sf::RenderWindow& win) override;
+    void Event_Settings() override;
+};
+
+class IHM_Graphique : public IHM {
+public:
+    IHM_Graphique(Settings* s, Grille* g, Cellule* c);
+    void Aff_graphique(sf::RenderWindow& win) override;
+    void Event_Settings() override;
+};
+
+
 
 #endif //CLASS_H

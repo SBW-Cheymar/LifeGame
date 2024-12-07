@@ -7,15 +7,17 @@ using namespace std;
 Cellule::Cellule(std::vector<std::vector<bool>>& matrice_ref) : matrice(matrice_ref) {}
 
 
-void Cellule :: afficherMatrice ()
-{
- for (const auto& row : matrice) {
-  for (const auto& cell : row) {
-   std::cout << cell << " "; // Affiche 1 ou 0
+void Cellule :: afficherMatrice () {
+ if (mode == 1){
+  for (const auto& row : matrice) {
+   for (const auto& cell : row) {
+    std::cout << cell << " "; // Affiche 1 ou 0
+   }
+   std::cout << std::endl;
   }
-  std::cout << std::endl;
+  cout << "\n" << endl;
  }
- cout << "\n" << endl;
+ else {}
 }
 
 void Cellule::save_fichier(){
@@ -79,7 +81,6 @@ vector<vector<bool>>& Cellule ::get_matrice_cell()
 
 
 /**
- *
  * @brief Classe Cellule_movible héritière de Cellule
  */
 Cellule_movible::Cellule_movible(std::vector<std::vector<bool>>& matrice_ref) : Cellule(matrice_ref) {}

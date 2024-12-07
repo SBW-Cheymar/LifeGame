@@ -1,7 +1,5 @@
-#include <iostream>
 #include <fstream>
 #include "class.h"
-#include "SFML/Graphics.hpp"
 #include "nlohmann/include/nlohmann/json.hpp" // Inclure la bibliothèque JSON
 
 std::string Settings::config_path() {
