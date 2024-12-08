@@ -46,22 +46,30 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 2. **Installer SFML :**
 
-   - Linux : sudo apt-get install libsfml-dev
-   - macOS : brew install sfml
+   - Linux :
+     ```bash
+     sudo apt-get install libsfml-dev
+   - macOS :
+     ```bash
+     brew install sfml
    - Widnows : https://www.sfml-dev.org/download/sfml/2.6.2/index-fr.php
 
 3. **Installer la bibliothèque nlohmann/json :**
-   - Avec vcpkg : vcpkg install nlohmann-json
+   - Avec vcpkg :
+     ```bash
+     vcpkg install nlohmann-json
    - Depuis le dépôt GitHUB et placez-le dans le dossier 'libs/nlohmann/include/'.
 
 4. Construisez le projet :
-  mkdir build
-  cd build
-  cmake ..
-  make
+   ```bash
+     mkdir build
+     cd build
+     cmake ..
+     make
 
 ## Utilisation
 1. **Lancez le programme :**
+   ```bash
    ./jeu_de_la_vie
 
 2. **Choisissez votre mode de jeu :
@@ -89,7 +97,8 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
   ## Structure du Projet 
 
-.
+  ```
+   .
    ├── src
    │   ├── cellule.cpp
    │   ├── game.cpp
@@ -108,7 +117,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
        ├── gamelife.png
        └── gamelifei.png
 
-  ## Contributions 
+## Contributions 
 Les contributions sont les bienvenues ! N'hésitez à soumettre de pull requests ou à signaler les problèmes.
 
 
