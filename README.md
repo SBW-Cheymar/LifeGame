@@ -70,42 +70,43 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 
 3. **Configuration : **
    - Avec un fichier de configuration JSON pour définir la taile de la grille et l'état intial des cellules. Comme le modèle suivant :
+     
    ```json
-{
-  "iterations_max": 420,
-  "gridWidth": 5,
-  "gridHeight": 4,
-  "gridData": [
+   {
+   "iterations_max": 420,
+   "gridWidth": 5,
+   "gridHeight": 4,
+   "gridData": [
     [0, 1, 0, 1, 0],
     [1, 0, 1, 0, 1],
     [0, 1, 0, 1, 0],
     [1, 0, 1, 0, 1]
-  ]
-}
+   ]
+   }
 
-   - Sans fichier de configuration, le système vous propose d'en créer un de manière très rapide, en saisissant simplement les informations.
+- Sans fichier de configuration, le système vous propose d'en créer un de manière très rapide, en saisissant simplement les informations.
   
 
   ## Structure du Projet 
 
 .
-├── src
-│   ├── cellule.cpp
-│   ├── game.cpp
-│   ├── ihm.cpp
-│   └── main.cpp
-│  
-├── headers
-│   └── class.h
-├── libs
-│   └── nlohmann
-│       └── include
-│           └── nlohmann
-│               └── json.hpp
-└── assets
-    ├── Mandelio Di Paedre.ttf
-    ├── gamelife.png
-    └── gamelifei.png
+   ├── src
+   │   ├── cellule.cpp
+   │   ├── game.cpp
+   │   ├── ihm.cpp
+   │   └── main.cpp
+   │  
+   ├── headers
+   │   └── class.h
+   ├── libs
+   │   └── nlohmann
+   │       └── include
+   │           └── nlohmann
+   │               └── json.hpp
+   └── assets
+       ├── Mandelio Di Paedre.ttfz
+       ├── gamelife.png
+       └── gamelifei.png
 
   ## Contributions 
 Les contributions sont les bienvenues ! N'hésitez à soumettre de pull requests ou à signaler les problèmes.
