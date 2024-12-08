@@ -23,6 +23,7 @@ Nous vous proposerons une implémentation en C++ (en programmation orientée obj
 ## Fonctionnalités
 
 - Chargement de la configuration à partir d'un fichier JSON.
+- Création semi-automatique d'un fichier de configuration en JSON.
 - Modes de jeu : Console et Graphique.
 - Simulation de l'évolution des cellules selon les règles du Jeu de la Vie.
 - Interface graphique utilisant SFML.
