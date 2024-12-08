@@ -114,6 +114,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
    │               └── json.hpp
    └── assets
        ├── Mandelio Di Paedre.ttfz
+       ├── pricedown bl.ttf
        ├── gamelife.png
        └── gamelifei.png
 
