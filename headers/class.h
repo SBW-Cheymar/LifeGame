@@ -4,7 +4,14 @@
 #define CLASS_H
 
 #include <vector>
+#include <fstream>
+#include <windows.h>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <set>
+#include "SFML/Graphics.hpp"
+
 
 
 /**
@@ -15,15 +22,12 @@ private :
     std::string URL;
     int iterations_max;
     int modes;
-
-    //Partie ajoutée
     int ligne, colonne;
     std::vector<std::vector<bool>> matrice;
 
 public:
     void lire_fichier();
-    //void set_interactions(); SUPPRIME
-    int get_iterations();   // MODIFER car get_interactions
+    int get_iterations();
     int choix_modes();
     void non_config_file();
     void save_fichier();
@@ -37,44 +41,6 @@ public:
     int get_ligne();
     int get_colonne();
 
-};
-class Grille {
-private:
-    int ligne;
-    int colonne;
-    bool torique;
-    std::vector<std::vector<bool>> etatGrille;
-
-public:
-    void init();
-    void afficher();
-    void MAJ();
-    bool estTorique();
-};
-
-class IHM {
-private:
-    int largeur;
-    int hauteur;
-
-public:
-    virtual void Aff_graphique() = 0;
-    virtual void Event_Settings() = 0;
-    virtual bool ending() = 0;
-};
-
-class IHM_Moniteur : public IHM {
-  public:
-    void Aff_graphique() override;
-    void Event_Settings() override;
-    bool ending() override;
-};
-
-class IHM_Graphique : public IHM {
-public:
-    void Aff_graphique() override;
-    void Event_Settings() override;
-    bool ending() override;
 };
 
 class Cellule {
@@ -111,11 +77,46 @@ public:
     std::vector<std::vector<bool>>& get_matrice_cell();
 };
 
-class Cellule_Obstacle : public Cellule {
+class IHM {
+protected:
+    std::vector<std::vector<bool>>& matrice_ref;
+    int iteration_max; // Nombre maximum d'itérations
 public:
-    Cellule_Obstacle(std::vector<std::vector<bool>>& matrice_ref);
-    void definirEtat(int x, int y, bool etat) override;
-    void changerEtat() override;
+    IHM(std::vector<std::vector<bool>>& matrice) : matrice_ref(matrice) {}
+    virtual void Aff_graphique() = 0;
+    void set_iteration_max(int it_max);
 };
+
+class IHM_Moniteur : public IHM {
+private:
+    Cellule_movible& celluleMovible;
+public:
+    IHM_Moniteur(std::vector<std::vector<bool>>& matrice_ref, Cellule_movible& cellule);
+    void Aff_graphique() override;
+};
+
+class IHM_Graphique : public IHM {
+private:
+    const int cellSize = 1; // Taille de chaque cellule
+    int Width = 860;
+    int Height = 540;
+    int mode; // Mode de jeu
+    sf::RenderWindow window;
+    sf::Font font;
+    sf::Font font2;
+    sf::Text playText;
+    sf::Text quitText;
+    sf::Text endText;
+    int iterationCount; // Compteur d'itérations
+    Cellule_movible& celluleMovible;
+
+    void drawGrid();
+    void updateMatrice();
+
+public:
+    IHM_Graphique(std::vector<std::vector<bool>>& matrice_ref, Cellule_movible& cellule);
+    void Aff_graphique();
+};
+
 
 #endif //CLASS_H
