@@ -59,7 +59,8 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
    - Avec vcpkg :
      ```bash
      vcpkg install nlohmann-json
-   - Depuis le dépôt GitHUB et placez-le dans le dossier 'libs/nlohmann/include/'.
+   - Depuis le dépôt GitHUB : https://github.com/nlohmann/json  
+        Et placez-le dans le dossier 'libs/'.
 
 4. Construisez le projet :
    ```bash
