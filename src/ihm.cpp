@@ -49,7 +49,7 @@ void IHM_Graphique::drawGrid() {
         for (size_t j = 0; j < matrice_ref[i].size(); ++j) {
             sf::RectangleShape cell(sf::Vector2f(cellSizeX, cellSizeY));
             cell.setPosition(j * cellSizeX, i * cellSizeY);
-            cell.setFillColor(matrice_ref[i][j] ? sf::Color::Blue : sf::Color::Black);
+            cell.setFillColor(matrice_ref[i][j] ? sf::Color::White : sf::Color::Black);
             window.draw(cell);
         }
     }
@@ -114,7 +114,8 @@ void IHM_Graphique::Aff_graphique() {
 
             // Vérifiez si le nombre d'itérations a atteint le maximum
             if (iterationCount >= iteration_max) {
-                std::cout << "Nombre maximum d'iterations atteint." << std::endl;
+                std::cout << "\n Nombre maximum d'iterations atteint." << std::endl;
+                afficherEcranFin(); // Appeler l'écran de fin
                 window.close();
                 exit(0);
             }
@@ -124,6 +125,40 @@ void IHM_Graphique::Aff_graphique() {
         // Pause pour la mise à jour de la matrice
         if (mode == 1) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Ajustez la durée pour la fluidité
+        }
+    }
+}
+
+void IHM_Graphique::afficherEcranFin() {
+    // Créer un rectangle noir semi-transparent
+    sf::RectangleShape background(sf::Vector2f(Width, Height));
+    background.setFillColor(sf::Color(0, 0, 0, 200)); // Fond Noir avec 78% de transparence
+
+    // Afficher le rectangle de fond
+    window.draw(background);
+
+    // Afficher le texte de fin
+    font2.loadFromFile("assets/pricedown bl.ttf");
+    sf::Text endText("WASTED.", font2, 80);
+    endText.setFillColor(sf::Color::Red);
+    endText.setPosition(Width / 3, Height / 5);
+    window.draw(endText);
+
+    // Afficher un message pour quitter
+    sf::Text endingText(" Iterations max atteinte | Press Echap pour quitter.", font2, 30);
+    endingText.setFillColor(sf::Color::Red);
+    endingText.setPosition(Width / 8, Height / 2);
+    window.draw(endingText);
+
+    window.display();
+
+    // Attendre que l'utilisateur appuie sur Échap pour quitter
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                window.close();
+            }
         }
     }
 }
